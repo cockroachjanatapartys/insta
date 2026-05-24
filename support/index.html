@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support CJP Protester</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lightweight QR Code Library (Bina server load ke local render karega) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top left, #0d0d11, #050507);
+        }
+
+        /* Luxury UIverse Card Design Theme Matched */
+        .uiverse-card {
+            background: rgba(18, 18, 22, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Standard Pulse Gradient Action Button */
+        .uiverse-btn {
+            border: none;
+            color: #fff;
+            background-image: linear-gradient(30deg, #0400ff, #4ce3f7);
+            border-radius: 16px;
+            background-size: 100% auto;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .uiverse-btn:hover {
+            background-position: right center;
+            background-size: 200% auto;
+            box-shadow: 0 0 15px rgba(5, 186, 218, 0.3);
+        }
+
+        .amount-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.2s ease;
+        }
+
+        .amount-btn.active {
+            background: rgba(4, 0, 255, 0.2);
+            border-color: #4ce3f7;
+            color: #4ce3f7;
+        }
+
+        /* QR block wrapper wrapper style */
+        #qrcode img {
+            margin: 0 auto;
+            border-radius: 12px;
+            border: 6px solid white;
+        }
+    </style>
+</head>
+<body class="text-gray-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Header Block -->
+    <header class="w-full max-w-6xl mx-auto px-6 py-5 flex justify-between items-center border-b border-gray-800/40">
+        <div class="flex items-center gap-3">
+            <img src="https://everesthospital.org/wp-content/uploads/2023/04/donate_1.png" 
+                 alt="Donate Icon" 
+                 class="w-9 h-9 object-contain">
+            <span class="text-base font-bold tracking-wider bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">CJP Support Gateway</span>
+        </div>
+        <span class="text-[11px] bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/20 font-semibold tracking-wider uppercase">Verified Link</span>
+    </header>
+
+    <!-- Main Workspace Setup -->
+    <main class="w-full max-w-xl mx-auto px-4 py-12 flex-grow flex items-center justify-center">
+        
+        <div class="uiverse-card rounded-2xl p-6 md:p-8 w-full text-center">
+            
+            <!-- User Profile Avatar Context -->
+            <div class="mx-auto w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center border border-blue-500/30 mb-4">
+                <span class="text-2xl">👤</span>
+            </div>
+
+            <!-- Header Injecting Block -->
+            <h1 class="text-xl font-bold text-white tracking-tight mb-1">Support <span id="displayUser" class="text-cyan-400">@CJP_Supporter</span></h1>
+            <p class="text-xs text-gray-400 mb-6 tracking-wide">For their contribution to CJP Protest campaign efforts</p>
+
+            <!-- Custom User Description Message Box -->
+            <div class="bg-white/[0.02] border border-white/[0.05] p-4 rounded-xl text-sm text-gray-300 italic mb-6">
+                " <span id="displayDesc">CJP INDIA</span> "
+            </div>
+
+            <!-- Interactive Amount Grid Selection -->
+            <div class="mb-5">
+                <label class="block text-left text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">Select Support Amount</label>
+                <div class="grid grid-cols-4 gap-2">
+                    <button onclick="setAmount(10, this)" class="amount-btn active text-sm font-semibold py-2.5 rounded-xl text-gray-300">₹10</button>
+                    <button onclick="setAmount(20, this)" class="amount-btn text-sm font-semibold py-2.5 rounded-xl text-gray-300">₹20</button>
+                    <button onclick="setAmount(50, this)" class="amount-btn text-sm font-semibold py-2.5 rounded-xl text-gray-300">₹50</button>
+                    <button onclick="setAmount(100, this)" class="amount-btn text-sm font-semibold py-2.5 rounded-xl text-gray-300">₹100</button>
+                </div>
+            </div>
+
+            <!-- Manual Custom Variable Field Box Input -->
+            <div class="mb-6">
+                <input type="number" id="customAmount" oninput="syncCustomAmount(this.value)" placeholder="Enter custom amount (Optional)" 
+                       class="w-full bg-black/40 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-all text-sm text-center">
+            </div>
+
+            <!-- Core App Route Button Handler Layout -->
+            <div id="mobileActionBlock">
+                <button onclick="payViaUPIIntent()" class="uiverse-btn w-full py-3.5 flex items-center justify-center gap-2 text-sm font-bold shadow-lg">
+                    <span>🚀</span> Pay Now / Support Supporter
+                </button>
+                <p class="text-[10px] text-gray-500 mt-2">Will automatically trigger Google Pay, PhonePe, Paytm or available UPI Apps.</p>
+            </div>
+
+            <!-- Realtime Adaptive Desktop QR Frame Module Layout -->
+            <div id="desktopActionBlock" class="hidden mt-6 pt-6 border-t border-gray-800/60">
+                <div id="qrcode" class="p-3 bg-white inline-block rounded-xl mb-3 shadow-inner"></div>
+                <p class="text-xs font-semibold text-cyan-400 mb-1">Scan QR Code via Mobile to Pay</p>
+                <p class="text-[11px] text-gray-500 max-w-xs mx-auto">Amount <span id="qrAmountText" class="text-white font-bold">₹10</span> will automatically sync inside your payment scanner screen securely.</p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Navigation Core Redirection Hyperlink /insta Banner Block requested by you -->
+    <a href="../" class="w-full bg-blue-600/10 hover:bg-blue-600/20 border-t border-blue-500/20 py-3.5 text-center text-xs tracking-wider text-cyan-400 font-bold uppercase transition-all flex items-center justify-center gap-1.5">
+        <span>⚡</span> JOIN CJP & EARN MONEY — Create Your Support Page Here <span>→</span>
+    </a>
+
+    <!-- Footer System Execution Standard Layout -->
+    <footer class="w-full text-center py-4 bg-black/20 text-[10px] text-gray-600 tracking-wide">
+        Secure Peer-to-Peer UPI Gateway Support Protocol &copy; 2026.
+    </footer>
+
+    <!-- Core App Router JS Script Execution Logic Block -->
+    <script>
+        // Router state management schema initialization variables
+        let globalUpiId = "";
+        let globalUser = "";
+        let globalDesc = "";
+        let currentSelectedAmount = 10;
+
+        // Hash parsing engine routine triggered straight at document load window context state
+        window.addEventListener('DOMContentLoaded', () => {
+            const hashData = window.location.hash;
+            
+            // Check parsing constraints tree matching structural boundaries arrays payload count (< 4 nodes fails)
+            if (!hashData || hashData.split('#').length < 4) {
+                alert('Opps!! Invalid or Broken Support Link.');
+                window.location.href = '../'; // Fallback redirecting instantly straight to main base /insta repo root folder
+                return;
+            }
+
+            // Slicing parameters payload
+            const tokens = hashData.split('#');
+            globalUser = decodeURIComponent(tokens[1]);
+            globalDesc = decodeURIComponent(tokens[2]);
+            globalUpiId = decodeURIComponent(tokens[3]);
+
+            // DOM view payload integration setup
+            document.getElementById('displayUser').innerText = `@${globalUser}`;
+            document.getElementById('displayDesc').innerText = globalDesc;
+
+            // Trigger platform environment analysis module
+            detectDeviceAndUIRoute();
+        });
+
+        // Toggle pricing parameters dynamically handler script logic routines
+        function setAmount(val, element) {
+            currentSelectedAmount = parseInt(val) || 10;
+            document.getElementById('customAmount').value = ''; // Clean box state buffer out
+            
+            // Layout styling active synchronization trigger routines loops
+            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
+            if(element) element.classList.add('active');
+
+            reEvaluateActionOutput();
+        }
+
+        function syncCustomAmount(val) {
+            // Drop styling on manual variable override typing triggering events sequence
+            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
+            
+            currentSelectedAmount = parseInt(val) || 0;
+            reEvaluateActionOutput();
+        }
+
+        // Generate Deep Link Intent String Builder Core Engine Routine Method
+        function buildUPIIntentString() {
+            // Formatting parameters with safety masking configurations mapping structures
+            const cleanUser = encodeURIComponent(globalUser);
+            const cleanDesc = encodeURIComponent(globalDesc);
+            
+            let baseIntent = `upi://pay?pa=${globalUpiId}&pn=${cleanUser}&tn=${cleanDesc}&cu=INR`;
+            
+            // Only inject amount constraints structure node if value strictly registers greater than zero base limits
+            if(currentSelectedAmount > 0) {
+                baseIntent += `&am=${currentSelectedAmount}`;
+            }
+            return baseIntent;
+        }
+
+        // Adapt UI layout depending completely based on Platform Device Engine Environment Data Matrix Analysis
+        function detectDeviceAndUIRoute() {
+            const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                document.getElementById('mobileActionBlock').classList.remove('hidden');
+                document.getElementById('desktopActionBlock').classList.add('hidden');
+            } else {
+                document.getElementById('mobileActionBlock').classList.add('hidden');
+                document.getElementById('desktopActionBlock').classList.remove('hidden');
+                generateDesktopQRCode(); // Initial rendering context stack routine instantiation
+            }
+        }
+
+        // Evaluates payload loops whenever amount adjustments events scale up triggers sequence loop
+        function reEvaluateActionOutput() {
+            const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+            if (!isMobile) {
+                generateDesktopQRCode();
+                document.getElementById('qrAmountText').innerText = currentSelectedAmount > 0 ? `₹${currentSelectedAmount}` : 'Custom';
+            }
+        }
+
+        // Native Deep-Linking App Trigger Bridge Method Block execution layout logic
+        function payViaUPIIntent() {
+            if(currentSelectedAmount <= 0) {
+                alert('Please check or enter an amount to support!');
+                return;
+            }
+            const targetIntentString = buildUPIIntentString();
+            window.location.href = targetIntentString;
+        }
+
+        // Localized QR Code Renderer Block without any telemetry payload triggers context tracking
+        let qrCodeInstance = null;
+        function generateDesktopQRCode() {
+            const targetPayloadStr = buildUPIIntentString();
+            const container = document.getElementById('qrcode');
+            
+            // Flush inner layout DOM container block structures
+            container.innerHTML = "";
+            
+            // Instantiating fresh dynamic properties configurations arrays payload settings objects mapping models
+            qrCodeInstance = new QRCode(container, {
+                text: targetPayloadStr,
+                width: 180,
+                height: 180,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.M
+            });
+        }
+    </script>
+</body>
+</html>
