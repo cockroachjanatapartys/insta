@@ -56,7 +56,7 @@
             transform: scale(0.96);
         }
 
-        #qrcode img {
+        #qrcode img, #mobileQrcode img {
             margin: 0 auto;
             border-radius: 10px;
             border: 4px solid white;
@@ -80,9 +80,13 @@
     <main class="w-full max-w-md mx-auto px-4 py-6 flex-grow flex items-center justify-center">
         <div class="uiverse-card rounded-2xl p-5 md:p-6 w-full text-center">
             
-            <!-- Protester Meta Identity Context -->
-            <div class="mx-auto w-14 h-14 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full flex items-center justify-center border border-white/5 mb-3.5 shadow-inner">
-                <span class="text-xl">👤</span>
+            <!-- Instagram SVG Icon Frame -->
+            <div class="mx-auto w-14 h-14 bg-gradient-to-tr from-purple-600/20 via-pink-600/20 to-yellow-500/20 rounded-full flex items-center justify-center border border-white/10 mb-3.5 shadow-inner">
+                <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
             </div>
 
             <h1 class="text-lg font-bold text-white tracking-tight mb-0.5">Support <span id="displayUser" class="text-cyan-400">@CJP_Supporter</span></h1>
@@ -109,25 +113,34 @@
                        class="w-full bg-black/50 border border-gray-800/80 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400/70 transition-all text-xs text-center font-medium placeholder-gray-600">
             </div>
 
-            <!-- Mobile Core Trigger Action: Direct Open UPI Apps Button Layout -->
+            <!-- Mobile Core Trigger Action Layout -->
             <div id="mobileActionBlock" class="w-full">
-                <button onclick="payViaUPIIntent()" class="uiverse-btn w-full py-4 flex items-center justify-center gap-2 text-sm shadow-xl tracking-wide">
-                    <span>✨</span> Open Installed UPI Apps
+                <button onclick="payViaUPIIntent()" class="uiverse-btn w-full py-3.5 px-4 flex flex-col items-center justify-center gap-1.5 shadow-xl tracking-wide">
+                    <span class="text-xs tracking-wider uppercase font-extrabold opacity-90">Pay via UPI App</span>
+                    <img src="https://fastrr-boost-ui.pickrr.com/assets/images/boost_button/upi_options.svg" 
+                         alt="UPI Apps" 
+                         class="h-5 object-contain">
                 </button>
-                <div class="flex items-center justify-center gap-3 mt-3 text-[10px] text-gray-500 font-medium">
-                    <span>⚡ GPay</span>
-                    <span>•</span>
-                    <span>⚡ PhonePe</span>
-                    <span>•</span>
-                    <span>⚡ Paytm</span>
+                
+                <!-- Fallback Mobile Scan Text Trigger -->
+                <div class="mt-4 pt-1">
+                    <button onclick="toggleMobileQR()" class="text-[11px] text-cyan-400/90 hover:text-cyan-400 font-semibold tracking-wide underline underline-offset-4 bg-transparent border-none outline-none cursor-pointer">
+                        Want to scan QR code from another phone?
+                    </button>
+                    
+                    <!-- Hidden Mobile Dropdown QR Tray -->
+                    <div id="mobileQrContainer" class="hidden mt-4 p-4 bg-white/5 border border-white/5 rounded-2xl transition-all duration-300">
+                        <div id="mobileQrcode" class="p-2.5 bg-white inline-block rounded-xl mb-2"></div>
+                        <p class="text-[10px] text-gray-400">Scan this QR via any UPI App from your 2nd device to pay <span class="mobile-amount-sync text-white font-bold">₹10</span></p>
+                    </div>
                 </div>
             </div>
 
             <!-- Realtime Synchronized Desktop QR Box Module Layout -->
             <div id="desktopActionBlock" class="hidden mt-4 pt-4 border-t border-gray-800/50">
-                <div id="qrcode" class="p-2.5 bg-white inline-block rounded-xl mb-2.5 transition-all duration-300"></div>
+                <div id="qrcode" class="p-2.5 bg-white inline-block rounded-xl mb-2.5"></div>
                 <p class="text-xs font-bold text-cyan-400 mb-0.5">Scan QR to Complete Payment</p>
-                <p class="text-[10px] text-gray-500 max-w-xs mx-auto">Syncing amount: <span id="qrAmountText" class="text-white font-bold">₹10</span></p>
+                <p class="text-[10px] text-gray-500 max-w-xs mx-auto">Syncing amount: <span class="desktop-amount-sync text-white font-bold">₹10</span></p>
             </div>
 
         </div>
@@ -150,6 +163,7 @@
         let globalUser = "";
         let globalDesc = "";
         let currentSelectedAmount = 10;
+        let isMobileDevice = false;
 
         // Document parser initializer trigger engine context
         window.addEventListener('DOMContentLoaded', () => {
@@ -158,7 +172,7 @@
             // Validate payload array constraint branches counts (< 4 parameters blocks routing failure fallback)
             if (!currentHash || currentHash.split('#').length < 4) {
                 alert('Opps!! Invalid or Broken Support Link.');
-                window.location.href = '../'; // Bypassing traffic back straight to main repo folder root location
+                window.location.href = '../'; 
                 return;
             }
 
@@ -179,7 +193,7 @@
         // Dynamic adjustment buttons script routines handler
         function setAmount(val, element) {
             currentSelectedAmount = parseInt(val) || 0;
-            document.getElementById('customAmount').value = ''; // Flush input memory fields state buffers
+            document.getElementById('customAmount').value = ''; 
             
             document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
             if(element) element.classList.add('active');
@@ -207,24 +221,39 @@
 
         // Environment platform sensor analysis script layer modules
         function detectDeviceAndUIRoute() {
-            const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+            isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
             
-            if (isMobile) {
+            if (isMobileDevice) {
                 document.getElementById('mobileActionBlock').classList.remove('hidden');
                 document.getElementById('desktopActionBlock').classList.add('hidden');
+                // Pre-render mobile fallback QR on load background pipeline
+                generateQRCodeEngine('mobileQrcode');
             } else {
                 document.getElementById('mobileActionBlock').classList.add('hidden');
                 document.getElementById('desktopActionBlock').classList.remove('hidden');
-                generateDesktopQRCode(); // Setup initial canvas instance block tree
+                generateQRCodeEngine('qrcode'); 
+            }
+        }
+
+        // Mobile QR dropdown drawer panel toggle trigger routine
+        function toggleMobileQR() {
+            const container = document.getElementById('mobileQrContainer');
+            container.classList.toggle('hidden');
+            if(!container.classList.contains('hidden')) {
+                generateQRCodeEngine('mobileQrcode');
             }
         }
 
         // Sync visual graphics runtime parameters modifications alerts loop loops
         function reEvaluateActionOutput() {
-            const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
-            if (!isMobile) {
-                generateDesktopQRCode();
-                document.getElementById('qrAmountText').innerText = currentSelectedAmount > 0 ? `₹${currentSelectedAmount}` : 'Custom';
+            const targetText = currentSelectedAmount > 0 ? `₹${currentSelectedAmount}` : 'Custom';
+            
+            if (isMobileDevice) {
+                generateQRCodeEngine('mobileQrcode');
+                document.querySelectorAll('.mobile-amount-sync').forEach(el => el.innerText = targetText);
+            } else {
+                generateQRCodeEngine('qrcode');
+                document.querySelectorAll('.desktop-amount-sync').forEach(el => el.innerText = targetText);
             }
         }
 
@@ -238,18 +267,18 @@
             window.location.href = finalIntentUrl;
         }
 
-        // Static zero latency client code wrapper renderer instance matrix model logic 
-        let qrCodeInstance = null;
-        function generateDesktopQRCode() {
+        // Unified dynamic QR renderer module layout engine matrix
+        function generateQRCodeEngine(targetElementId) {
+            const targetDOMNode = document.getElementById(targetElementId);
+            if(!targetDOMNode) return;
+            
             const cleanPayloadTarget = buildUPIIntentString();
-            const container = document.getElementById('qrcode');
+            targetDOMNode.innerHTML = ""; 
             
-            container.innerHTML = ""; // Wipe off dirty previous layers nodes properties structures
-            
-            qrCodeInstance = new QRCode(container, {
+            new QRCode(targetDOMNode, {
                 text: cleanPayloadTarget,
-                width: 160,
-                height: 160,
+                width: 150,
+                height: 150,
                 colorDark : "#000000",
                 colorLight : "#ffffff",
                 correctLevel : QRCode.CorrectLevel.M
