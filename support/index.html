@@ -6,178 +6,181 @@
     <title>Support CJP Protester</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lightweight QR Code Library (Bina server load ke local render karega) -->
+    <!-- Ultra-lightweight local QR Code Engine -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
         
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: radial-gradient(circle at top left, #0d0d11, #050507);
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Luxury UIverse Card Design Theme Matched */
         .uiverse-card {
             background: rgba(18, 18, 22, 0.75);
             backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.04);
             box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.6);
         }
 
-        /* Standard Pulse Gradient Action Button */
+        /* High-Converting Pulse Gradient Open UPI Button */
         .uiverse-btn {
             border: none;
             color: #fff;
             background-image: linear-gradient(30deg, #0400ff, #4ce3f7);
-            border-radius: 16px;
+            border-radius: 14px;
             background-size: 100% auto;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
 
-        .uiverse-btn:hover {
+        .uiverse-btn:hover, .uiverse-btn:active {
             background-position: right center;
             background-size: 200% auto;
-            box-shadow: 0 0 15px rgba(5, 186, 218, 0.3);
+            transform: scale(1.01);
         }
 
         .amount-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.15s ease;
         }
 
         .amount-btn.active {
-            background: rgba(4, 0, 255, 0.2);
+            background: rgba(4, 0, 255, 0.25);
             border-color: #4ce3f7;
             color: #4ce3f7;
+            transform: scale(0.96);
         }
 
-        /* QR block wrapper wrapper style */
         #qrcode img {
             margin: 0 auto;
-            border-radius: 12px;
-            border: 6px solid white;
+            border-radius: 10px;
+            border: 4px solid white;
         }
     </style>
 </head>
-<body class="text-gray-200 min-h-screen flex flex-col justify-between">
+<body class="text-gray-200 min-h-screen flex flex-col justify-between antialiased">
 
-    <!-- Header Block -->
-    <header class="w-full max-w-6xl mx-auto px-6 py-5 flex justify-between items-center border-b border-gray-800/40">
-        <div class="flex items-center gap-3">
+    <!-- Navbar/Header Link Layout -->
+    <header class="w-full max-w-5xl mx-auto px-4 py-4 flex justify-between items-center border-b border-gray-800/30">
+        <div class="flex items-center gap-2.5">
             <img src="https://everesthospital.org/wp-content/uploads/2023/04/donate_1.png" 
                  alt="Donate Icon" 
-                 class="w-9 h-9 object-contain">
-            <span class="text-base font-bold tracking-wider bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">CJP Support Gateway</span>
+                 class="w-8 h-8 object-contain">
+            <span class="text-sm font-bold tracking-wider bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">CJP Support Gateway</span>
         </div>
-        <span class="text-[11px] bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/20 font-semibold tracking-wider uppercase">Verified Link</span>
+        <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-bold tracking-wider uppercase">P2P Secure</span>
     </header>
 
-    <!-- Main Workspace Setup -->
-    <main class="w-full max-w-xl mx-auto px-4 py-12 flex-grow flex items-center justify-center">
-        
-        <div class="uiverse-card rounded-2xl p-6 md:p-8 w-full text-center">
+    <!-- Main Workspace UI Block -->
+    <main class="w-full max-w-md mx-auto px-4 py-6 flex-grow flex items-center justify-center">
+        <div class="uiverse-card rounded-2xl p-5 md:p-6 w-full text-center">
             
-            <!-- User Profile Avatar Context -->
-            <div class="mx-auto w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center border border-blue-500/30 mb-4">
-                <span class="text-2xl">👤</span>
+            <!-- Protester Meta Identity Context -->
+            <div class="mx-auto w-14 h-14 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full flex items-center justify-center border border-white/5 mb-3.5 shadow-inner">
+                <span class="text-xl">👤</span>
             </div>
 
-            <!-- Header Injecting Block -->
-            <h1 class="text-xl font-bold text-white tracking-tight mb-1">Support <span id="displayUser" class="text-cyan-400">@CJP_Supporter</span></h1>
-            <p class="text-xs text-gray-400 mb-6 tracking-wide">For their contribution to CJP Protest campaign efforts</p>
+            <h1 class="text-lg font-bold text-white tracking-tight mb-0.5">Support <span id="displayUser" class="text-cyan-400">@CJP_Supporter</span></h1>
+            <p class="text-[11px] text-gray-400 mb-5 tracking-wide">Campaign Support Verification Instance</p>
 
-            <!-- Custom User Description Message Box -->
-            <div class="bg-white/[0.02] border border-white/[0.05] p-4 rounded-xl text-sm text-gray-300 italic mb-6">
+            <!-- Custom User Description Layout Block -->
+            <div class="bg-white/[0.015] border border-white/[0.04] px-4 py-3 rounded-xl text-xs md:text-sm text-gray-300 italic mb-5 leading-relaxed">
                 " <span id="displayDesc">CJP INDIA</span> "
             </div>
 
-            <!-- Interactive Amount Grid Selection -->
-            <div class="mb-5">
-                <label class="block text-left text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">Select Support Amount</label>
+            <!-- Interactive Quick Amount Selection Layout -->
+            <div class="mb-4">
                 <div class="grid grid-cols-4 gap-2">
-                    <button onclick="setAmount(10, this)" class="amount-btn active text-sm font-semibold py-2.5 rounded-xl text-gray-300">₹10</button>
-                    <button onclick="setAmount(20, this)" class="amount-btn text-sm font-semibold py-2.5 rounded-xl text-gray-300">₹20</button>
-                    <button onclick="setAmount(50, this)" class="amount-btn text-sm font-semibold py-2.5 rounded-xl text-gray-300">₹50</button>
-                    <button onclick="setAmount(100, this)" class="amount-btn text-sm font-semibold py-2.5 rounded-xl text-gray-300">₹100</button>
+                    <button onclick="setAmount(10, this)" class="amount-btn active text-xs font-bold py-3 rounded-xl text-gray-200">₹10</button>
+                    <button onclick="setAmount(20, this)" class="amount-btn text-xs font-bold py-3 rounded-xl text-gray-200">₹20</button>
+                    <button onclick="setAmount(50, this)" class="amount-btn text-xs font-bold py-3 rounded-xl text-gray-200">₹50</button>
+                    <button onclick="setAmount(100, this)" class="amount-btn text-xs font-bold py-3 rounded-xl text-gray-200">₹100</button>
                 </div>
             </div>
 
-            <!-- Manual Custom Variable Field Box Input -->
-            <div class="mb-6">
-                <input type="number" id="customAmount" oninput="syncCustomAmount(this.value)" placeholder="Enter custom amount (Optional)" 
-                       class="w-full bg-black/40 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-all text-sm text-center">
+            <!-- Manual Custom Box Variable Node Input -->
+            <div class="mb-5">
+                <input type="number" id="customAmount" oninput="syncCustomAmount(this.value)" placeholder="Or enter your custom amount (₹)" 
+                       class="w-full bg-black/50 border border-gray-800/80 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400/70 transition-all text-xs text-center font-medium placeholder-gray-600">
             </div>
 
-            <!-- Core App Route Button Handler Layout -->
-            <div id="mobileActionBlock">
-                <button onclick="payViaUPIIntent()" class="uiverse-btn w-full py-3.5 flex items-center justify-center gap-2 text-sm font-bold shadow-lg">
-                    <span>🚀</span> Pay Now / Support Supporter
+            <!-- Mobile Core Trigger Action: Direct Open UPI Apps Button Layout -->
+            <div id="mobileActionBlock" class="w-full">
+                <button onclick="payViaUPIIntent()" class="uiverse-btn w-full py-4 flex items-center justify-center gap-2 text-sm shadow-xl tracking-wide">
+                    <span>✨</span> Open Installed UPI Apps
                 </button>
-                <p class="text-[10px] text-gray-500 mt-2">Will automatically trigger Google Pay, PhonePe, Paytm or available UPI Apps.</p>
+                <div class="flex items-center justify-center gap-3 mt-3 text-[10px] text-gray-500 font-medium">
+                    <span>⚡ GPay</span>
+                    <span>•</span>
+                    <span>⚡ PhonePe</span>
+                    <span>•</span>
+                    <span>⚡ Paytm</span>
+                </div>
             </div>
 
-            <!-- Realtime Adaptive Desktop QR Frame Module Layout -->
-            <div id="desktopActionBlock" class="hidden mt-6 pt-6 border-t border-gray-800/60">
-                <div id="qrcode" class="p-3 bg-white inline-block rounded-xl mb-3 shadow-inner"></div>
-                <p class="text-xs font-semibold text-cyan-400 mb-1">Scan QR Code via Mobile to Pay</p>
-                <p class="text-[11px] text-gray-500 max-w-xs mx-auto">Amount <span id="qrAmountText" class="text-white font-bold">₹10</span> will automatically sync inside your payment scanner screen securely.</p>
+            <!-- Realtime Synchronized Desktop QR Box Module Layout -->
+            <div id="desktopActionBlock" class="hidden mt-4 pt-4 border-t border-gray-800/50">
+                <div id="qrcode" class="p-2.5 bg-white inline-block rounded-xl mb-2.5 transition-all duration-300"></div>
+                <p class="text-xs font-bold text-cyan-400 mb-0.5">Scan QR to Complete Payment</p>
+                <p class="text-[10px] text-gray-500 max-w-xs mx-auto">Syncing amount: <span id="qrAmountText" class="text-white font-bold">₹10</span></p>
             </div>
 
         </div>
     </main>
 
-    <!-- Navigation Core Redirection Hyperlink /insta Banner Block requested by you -->
-    <a href="../" class="w-full bg-blue-600/10 hover:bg-blue-600/20 border-t border-blue-500/20 py-3.5 text-center text-xs tracking-wider text-cyan-400 font-bold uppercase transition-all flex items-center justify-center gap-1.5">
-        <span>⚡</span> JOIN CJP & EARN MONEY — Create Your Support Page Here <span>→</span>
+    <!-- Bottom Action Navigation Conversion Trigger Hyperlink Target Layout -->
+    <a href="../" class="w-full bg-blue-600/5 hover:bg-blue-600/10 active:bg-blue-600/10 border-t border-blue-500/10 py-4 text-center text-xs tracking-wider text-cyan-400 font-bold uppercase transition-all flex items-center justify-center gap-2">
+        <span>📢</span> JOIN CJP & EARN MONEY — Create Your Support Page <span>→</span>
     </a>
 
-    <!-- Footer System Execution Standard Layout -->
-    <footer class="w-full text-center py-4 bg-black/20 text-[10px] text-gray-600 tracking-wide">
-        Secure Peer-to-Peer UPI Gateway Support Protocol &copy; 2026.
+    <!-- Footer Module Standard Design Structure -->
+    <footer class="w-full text-center py-3 bg-black/40 text-[9px] text-gray-600 font-medium tracking-wide">
+        Secure Peer-to-Peer Encrypted Network Gateway Protocol &copy; 2026.
     </footer>
 
-    <!-- Core App Router JS Script Execution Logic Block -->
+    <!-- Core App Router Javascript Logic Execution -->
     <script>
-        // Router state management schema initialization variables
+        // System variables registration state schema
         let globalUpiId = "";
         let globalUser = "";
         let globalDesc = "";
         let currentSelectedAmount = 10;
 
-        // Hash parsing engine routine triggered straight at document load window context state
+        // Document parser initializer trigger engine context
         window.addEventListener('DOMContentLoaded', () => {
-            const hashData = window.location.hash;
+            const currentHash = window.location.hash;
             
-            // Check parsing constraints tree matching structural boundaries arrays payload count (< 4 nodes fails)
-            if (!hashData || hashData.split('#').length < 4) {
+            // Validate payload array constraint branches counts (< 4 parameters blocks routing failure fallback)
+            if (!currentHash || currentHash.split('#').length < 4) {
                 alert('Opps!! Invalid or Broken Support Link.');
-                window.location.href = '../'; // Fallback redirecting instantly straight to main base /insta repo root folder
+                window.location.href = '../'; // Bypassing traffic back straight to main repo folder root location
                 return;
             }
 
-            // Slicing parameters payload
-            const tokens = hashData.split('#');
+            // Slicing string configuration structures
+            const tokens = currentHash.split('#');
             globalUser = decodeURIComponent(tokens[1]);
             globalDesc = decodeURIComponent(tokens[2]);
             globalUpiId = decodeURIComponent(tokens[3]);
 
-            // DOM view payload integration setup
+            // Synchronizing view engines elements
             document.getElementById('displayUser').innerText = `@${globalUser}`;
             document.getElementById('displayDesc').innerText = globalDesc;
 
-            // Trigger platform environment analysis module
+            // Route View Environment Target Matrix Layouts
             detectDeviceAndUIRoute();
         });
 
-        // Toggle pricing parameters dynamically handler script logic routines
+        // Dynamic adjustment buttons script routines handler
         function setAmount(val, element) {
-            currentSelectedAmount = parseInt(val) || 10;
-            document.getElementById('customAmount').value = ''; // Clean box state buffer out
+            currentSelectedAmount = parseInt(val) || 0;
+            document.getElementById('customAmount').value = ''; // Flush input memory fields state buffers
             
-            // Layout styling active synchronization trigger routines loops
             document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
             if(element) element.classList.add('active');
 
@@ -185,29 +188,24 @@
         }
 
         function syncCustomAmount(val) {
-            // Drop styling on manual variable override typing triggering events sequence
             document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
-            
             currentSelectedAmount = parseInt(val) || 0;
             reEvaluateActionOutput();
         }
 
-        // Generate Deep Link Intent String Builder Core Engine Routine Method
+        // Construct Native Protocol String Engine Method Structure Node
         function buildUPIIntentString() {
-            // Formatting parameters with safety masking configurations mapping structures
             const cleanUser = encodeURIComponent(globalUser);
             const cleanDesc = encodeURIComponent(globalDesc);
+            let intentStr = `upi://pay?pa=${globalUpiId}&pn=${cleanUser}&tn=${cleanDesc}&cu=INR`;
             
-            let baseIntent = `upi://pay?pa=${globalUpiId}&pn=${cleanUser}&tn=${cleanDesc}&cu=INR`;
-            
-            // Only inject amount constraints structure node if value strictly registers greater than zero base limits
             if(currentSelectedAmount > 0) {
-                baseIntent += `&am=${currentSelectedAmount}`;
+                intentStr += `&am=${currentSelectedAmount}`;
             }
-            return baseIntent;
+            return intentStr;
         }
 
-        // Adapt UI layout depending completely based on Platform Device Engine Environment Data Matrix Analysis
+        // Environment platform sensor analysis script layer modules
         function detectDeviceAndUIRoute() {
             const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
             
@@ -217,11 +215,11 @@
             } else {
                 document.getElementById('mobileActionBlock').classList.add('hidden');
                 document.getElementById('desktopActionBlock').classList.remove('hidden');
-                generateDesktopQRCode(); // Initial rendering context stack routine instantiation
+                generateDesktopQRCode(); // Setup initial canvas instance block tree
             }
         }
 
-        // Evaluates payload loops whenever amount adjustments events scale up triggers sequence loop
+        // Sync visual graphics runtime parameters modifications alerts loop loops
         function reEvaluateActionOutput() {
             const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
             if (!isMobile) {
@@ -230,30 +228,28 @@
             }
         }
 
-        // Native Deep-Linking App Trigger Bridge Method Block execution layout logic
+        // Native System Intent Deep-Linking Execution Handler Routine Method
         function payViaUPIIntent() {
             if(currentSelectedAmount <= 0) {
-                alert('Please check or enter an amount to support!');
+                alert('Please check or enter an amount greater than ₹0 to proceed!');
                 return;
             }
-            const targetIntentString = buildUPIIntentString();
-            window.location.href = targetIntentString;
+            const finalIntentUrl = buildUPIIntentString();
+            window.location.href = finalIntentUrl;
         }
 
-        // Localized QR Code Renderer Block without any telemetry payload triggers context tracking
+        // Static zero latency client code wrapper renderer instance matrix model logic 
         let qrCodeInstance = null;
         function generateDesktopQRCode() {
-            const targetPayloadStr = buildUPIIntentString();
+            const cleanPayloadTarget = buildUPIIntentString();
             const container = document.getElementById('qrcode');
             
-            // Flush inner layout DOM container block structures
-            container.innerHTML = "";
+            container.innerHTML = ""; // Wipe off dirty previous layers nodes properties structures
             
-            // Instantiating fresh dynamic properties configurations arrays payload settings objects mapping models
             qrCodeInstance = new QRCode(container, {
-                text: targetPayloadStr,
-                width: 180,
-                height: 180,
+                text: cleanPayloadTarget,
+                width: 160,
+                height: 160,
                 colorDark : "#000000",
                 colorLight : "#ffffff",
                 correctLevel : QRCode.CorrectLevel.M
